@@ -1,4 +1,4 @@
-object AtbashCipher{
+object AtbashCipher {
 
   type Codec = Char => Char
 
@@ -17,10 +17,12 @@ object AtbashCipher{
   val atbashCodec: Codec = codec(alphabet)(reverseAlphabet)
 
   val transcode: Codec => String => String =
-    codec => input => input.toLowerCase.collect{
-      case c if alphabet.contains(c) => codec(c)
-      case n if Character.isDigit(n) => n
-    }.mkString
+    codec =>
+      input =>
+        input.toLowerCase.collect {
+          case c if alphabet.contains(c) => codec(c)
+          case n if Character.isDigit(n) => n
+        }.mkString
 
   val group: Int => String => String =
     groupSize => in => in.grouped(groupSize).mkString(" ")

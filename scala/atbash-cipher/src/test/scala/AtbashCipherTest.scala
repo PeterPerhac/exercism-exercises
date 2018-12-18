@@ -1,4 +1,4 @@
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{FunSuite, Matchers}
 
 /** @version 1.1.0 */
 class AtbashCipherTest extends FunSuite with Matchers {
@@ -24,8 +24,7 @@ class AtbashCipherTest extends FunSuite with Matchers {
   }
 
   test("encode numbers") {
-    AtbashCipher.encode("Testing,1 2 3, testing.") should be(
-      "gvhgr mt123 gvhgr mt")
+    AtbashCipher.encode("Testing,1 2 3, testing.") should be("gvhgr mt123 gvhgr mt")
   }
 
   test("encode deep thought") {
@@ -42,8 +41,7 @@ class AtbashCipherTest extends FunSuite with Matchers {
   }
 
   test("decode a sentence") {
-    AtbashCipher.decode("zmlyh gzxov rhlug vmzhg vkkrm thglm v") should be(
-      "anobstacleisoftenasteppingstone")
+    AtbashCipher.decode("zmlyh gzxov rhlug vmzhg vkkrm thglm v") should be("anobstacleisoftenasteppingstone")
   }
 
   test("decode numbers") {
@@ -51,7 +49,6 @@ class AtbashCipherTest extends FunSuite with Matchers {
   }
 
   test("decode all the letters") {
-    AtbashCipher.decode("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt") should be(
-      "thequickbrownfoxjumpsoverthelazydog")
+    AtbashCipher.decode("gsvjf rxpyi ldmul cqfnk hlevi gsvoz abwlt") should be("thequickbrownfoxjumpsoverthelazydog")
   }
 }

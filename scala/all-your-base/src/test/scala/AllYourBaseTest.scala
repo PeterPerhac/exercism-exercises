@@ -1,4 +1,4 @@
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{FunSuite, Matchers}
 
 /** @version 2.3.0 */
 class AllYourBaseTest extends FunSuite with Matchers {
@@ -16,13 +16,11 @@ class AllYourBaseTest extends FunSuite with Matchers {
   }
 
   test("binary to multiple decimal") {
-    AllYourBase.rebase(2, List(1, 0, 1, 0, 1, 0), 10) should be(
-      Some(List(4, 2)))
+    AllYourBase.rebase(2, List(1, 0, 1, 0, 1, 0), 10) should be(Some(List(4, 2)))
   }
 
   test("decimal to binary") {
-    AllYourBase.rebase(10, List(4, 2), 2) should be(
-      Some(List(1, 0, 1, 0, 1, 0)))
+    AllYourBase.rebase(10, List(4, 2), 2) should be(Some(List(1, 0, 1, 0, 1, 0)))
   }
 
   test("trinary to hexadecimal") {

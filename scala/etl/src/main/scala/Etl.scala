@@ -4,8 +4,8 @@ object Etl {
   type NewMap = Map[String, Int]
 
   val transform: OldMap => NewMap = old =>
-    old.foldLeft[NewMap](Map.empty){
-      case (acc, (n, ss) ) => acc ++ ss.map(_.toLowerCase -> n)
-    }
+    old.foldLeft[NewMap](Map.empty) {
+      case (acc, (n, ss)) => acc ++ ss.map(_.toLowerCase -> n)
+  }
 
 }

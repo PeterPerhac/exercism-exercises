@@ -20,17 +20,23 @@ object OcrNumbers {
     }
 
   val digitAt: String => Int => Int => String =
-    in => lineWidth => digitOffset =>
-      (for {
-        y <- (0 until 4)
-        x <- (0 until 3)
-        charIndex = lineWidth*y + 3*digitOffset + x
-      } yield in.charAt(charIndex)).mkString
+    in =>
+      lineWidth =>
+        digitOffset =>
+          (for {
+            y <- (0 until 4)
+            x <- (0 until 3)
+            charIndex = lineWidth * y + 3 * digitOffset + x
+          } yield in.charAt(charIndex)).mkString
 
   val digitLines: Int => List[String] => List[String] =
-    w => lines =>
-      lines.grouped(4).map{ ls =>
-      ((0 until (w / 3)).map(digitAt(ls.mkString)(w) andThen numbers)).mkString
-      }.toList
+    w =>
+      lines =>
+        lines
+          .grouped(4)
+          .map { ls =>
+            ((0 until (w / 3)).map(digitAt(ls.mkString)(w) andThen numbers)).mkString
+          }
+          .toList
 
 }

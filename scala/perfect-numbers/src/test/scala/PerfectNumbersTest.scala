@@ -1,4 +1,4 @@
-import org.scalatest.{Matchers, FunSuite}
+import org.scalatest.{FunSuite, Matchers}
 
 /** @version 1.1.0 */
 class PerfectNumbersTest extends FunSuite with Matchers {
@@ -48,12 +48,10 @@ class PerfectNumbersTest extends FunSuite with Matchers {
   }
 
   test("Zero is rejected (not a natural number)") {
-    PerfectNumbers.classify(0) should be(
-      Left("Classification is only possible for natural numbers."))
+    PerfectNumbers.classify(0) should be(Left("Classification is only possible for natural numbers."))
   }
 
   test("Negative integer is rejected (not a natural number)") {
-    PerfectNumbers.classify(-1) should be(
-      Left("Classification is only possible for natural numbers."))
+    PerfectNumbers.classify(-1) should be(Left("Classification is only possible for natural numbers."))
   }
 }

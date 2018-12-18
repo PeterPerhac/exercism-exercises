@@ -8,7 +8,7 @@ object LensPerson {
   @Lenses
   case class Person(_name: Name, _born: Born, _address: Address)
 
-  case class Name(_foreNames: String /*Space separated*/ , _surName: String)
+  case class Name(_foreNames: String /*Space separated*/, _surName: String)
 
   type EpochDay = Long
 
@@ -16,8 +16,7 @@ object LensPerson {
   case class Born(_bornAt: Address, _bornOn: EpochDay)
 
   @Lenses
-  case class Address(_street: String, _houseNumber: Int,
-                     _place: String /*Village / city*/ , _country: String)
+  case class Address(_street: String, _houseNumber: Int, _place: String /*Village / city*/, _country: String)
 
   @Lenses
   case class Gregorian(_year: Int, _month: Int, _dayOfMonth: Int)
