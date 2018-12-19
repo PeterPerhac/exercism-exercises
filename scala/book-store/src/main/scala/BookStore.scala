@@ -9,6 +9,9 @@ object BookStore {
   def bestValueGrouping(items: List[Int]): Int =
     items.map(BookWithPrice(800, _)).map(_.price).sum
 
+  val priceBookGroup: List[Int] => List[BookWithPrice] =
+    bookIds => List.empty
+
   /*
 One copy of any of the five books costs $8.
 
