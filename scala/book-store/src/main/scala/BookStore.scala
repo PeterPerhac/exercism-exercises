@@ -1,8 +1,8 @@
 case class BookWithPrice(id: Int, price: Int) {
   lazy val withoutDiscount: BookWithPrice = BookWithPrice(id, BookWithPrice.defaultBookPrice)
 }
-object BookWithPrice{
-  val defaultBookPrice:Int = 800
+object BookWithPrice {
+  val defaultBookPrice: Int = 800
   val create: Int => BookWithPrice = BookWithPrice(_, defaultBookPrice)
   val discounted: Int => (Int => Int) => BookWithPrice =
     id => discount => BookWithPrice(id, discount(defaultBookPrice))
@@ -28,16 +28,18 @@ object BookStore {
     d => (math rint d).toInt
 
   val discount: Int => Int => Int =
-    distinctBooks => ((_:Int) * discountFactor(distinctBooks)) andThen roundMoney
+    distinctBooks => ((_: Int) * discountFactor(distinctBooks)) andThen roundMoney
 
   val priceBookGroup: List[Int] => List[BookWithPrice] =
-    group => group.foldLeft(List.empty[BookWithPrice]){(pricedBooks, bookId) =>
-      val alreadyPriced = pricedBooks.find(_.id == bookId)
-      val pricedBook = alreadyPriced.fold(BookWithPrice.discounted(bookId)(discount(distinctBooksInGroup(group))))(_.withoutDiscount)
-      pricedBook :: pricedBooks
+    group =>
+      group.foldLeft(List.empty[BookWithPrice]) { (pricedBooks, bookId) =>
+        val alreadyPriced = pricedBooks.find(_.id == bookId)
+        val pricedBook =
+          alreadyPriced.fold(BookWithPrice.discounted(bookId)(discount(distinctBooksInGroup(group))))(_.withoutDiscount)
+        pricedBook :: pricedBooks
     }
 
-  val groupPrice : List[Int] => Int =
+  val groupPrice: List[Int] => Int =
     items => priceBookGroup(items).map(_.price).sum
 
 }
