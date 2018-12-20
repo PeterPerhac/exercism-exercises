@@ -11,14 +11,15 @@ data Planet = Mercury
 
 -- planet's orbital period in earth years
 orbitalPeriod :: Planet -> Float
-orbitalPeriod Mercury = 0.2408467
-orbitalPeriod Venus = 0.61519726
-orbitalPeriod Earth = 1.0
-orbitalPeriod Mars = 1.8808158
-orbitalPeriod Jupiter = 11.862615
-orbitalPeriod Saturn = 29.447498
-orbitalPeriod Uranus = 84.016846
-orbitalPeriod Neptune = 164.79132
+orbitalPeriod planet = case planet of
+  Mercury -> 0.2408467
+  Venus   -> 0.61519726
+  Earth   -> 1.0
+  Mars    -> 1.8808158
+  Jupiter -> 11.862615
+  Saturn  -> 29.447498
+  Uranus  -> 84.016846
+  Neptune -> 164.79132
 
 yearInSeconds :: Planet -> Float
 yearInSeconds = (earthYearSeconds *) . orbitalPeriod
