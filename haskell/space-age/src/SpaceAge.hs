@@ -1,3 +1,4 @@
+{-# LANGUAGE LambdaCase                #-}
 module SpaceAge (Planet(..), ageOn) where
 
 data Planet = Mercury
@@ -11,7 +12,7 @@ data Planet = Mercury
 
 -- planet's orbital period in earth years
 orbitalPeriod :: Planet -> Float
-orbitalPeriod planet = case planet of
+orbitalPeriod = \case
   Mercury -> 0.2408467
   Venus   -> 0.61519726
   Earth   -> 1.0
