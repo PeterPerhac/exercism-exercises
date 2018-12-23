@@ -1,46 +1,24 @@
-import BookWithPrice.bookWithDiscount
-
-case class BookWithPrice(id: Int, price: Int) {
-  lazy val withoutDiscount: BookWithPrice = BookWithPrice(id, BookWithPrice.defaultBookPrice)
-}
-
-object BookWithPrice {
-  val defaultBookPrice: Int = 800
-
-  def book(id: Int): BookWithPrice = BookWithPrice(id, defaultBookPrice)
-
-  def bookWithDiscount(id: Int, discountApplicator: Int => Int): BookWithPrice =
-    BookWithPrice(id, discountApplicator(defaultBookPrice))
-}
+import scala.collection.mutable
 
 object BookStore {
 
-  def total(items: List[Int]): Int =
-    items.combinations(math.min(items.size, 5)).map {
-      foo =>
-        println(foo)
-        foo
-    }.map(groupPrice).map(i => {
-      println(i); i
-    }).min
+  private val bookPrice = 8
+  private val discounts = Map(1 -> 100, 2 -> 95, 3 -> 90, 4 -> 80, 5 -> 75).withDefaultValue(75)
+  private val cache = new mutable.HashMap[List[Int], Int]()
 
-  val discountFactor: Map[Int, Double] = Map(1 -> 1.00, 2 -> 0.95, 3 -> 0.90, 4 -> 0.80).withDefaultValue(0.75)
+  def total(books: List[Int]): Int =
+    cache.getOrElseUpdate(books, calculate_total(books))
 
-  val roundMoney: Double => Int =
-    d => (math rint d).toInt
-
-  val discount: Int => Int => Int =
-    distinctBooks => originalPrice =>
-      roundMoney(originalPrice * discountFactor(distinctBooks))
-
-  def priceBookGroup(group: List[Int]): List[BookWithPrice] =
-    group.foldLeft(List.empty[BookWithPrice]) { (pricedBooks, bookId) =>
-      val alreadyPriced = pricedBooks.find(_.id == bookId)
-      val pricedBook = alreadyPriced.fold(bookWithDiscount(bookId, discount(group.distinct.size)))(_.withoutDiscount)
-      pricedBook :: pricedBooks
+  private def calculate_total(books: List[Int]): Int =
+    books match {
+      case Nil => 0 //prevent .min on an empty collection
+      case _ => subsets(books.distinct).map(subset => groupPrice(subset.length) + total(books.diff(subset))).min
     }
 
-  def groupPrice(items: List[Int]): Int =
-    priceBookGroup(items).map(_.price).sum
+  private def groupPrice(bookCount: Int): Int =
+    bookPrice * bookCount * discounts(bookCount)
+
+  def subsets(selection: List[Int]): List[List[Int]] =
+    (1 to selection.size).flatMap(selection.combinations).toList
 
 }
