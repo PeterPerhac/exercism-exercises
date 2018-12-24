@@ -12,9 +12,9 @@ responseFor input
   | otherwise = "Whatever."
   where
     noInput = null . filter (not . isSpace)
-    shoutedWord w = length w > 1 && map toUpper w == w && (not . elem w $ ["OK", "DMV"])
     isShouting = not . null . filter shoutedWord . words . filter (oneof [isAlpha, isSpace])
-    isQuestion s = "?" `isPrefixOf` ((dropWhile isSpace) . reverse $ s)
+                 where shoutedWord w = length w > 1 && map toUpper w == w && (not . elem w $ ["OK", "DMV"])
+    isQuestion = (isPrefixOf "?") . (dropWhile isSpace) . reverse
 
-oneof :: [(a -> Bool)] -> (a -> Bool)
+oneof :: [a -> Bool] -> a -> Bool
 oneof ps = \c -> foldl (\b p -> b || p c) False ps
