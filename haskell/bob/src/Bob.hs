@@ -1,36 +1,20 @@
-{-# LANGUAGE LambdaCase    #-}
 module Bob (responseFor) where
 
 import Data.Char (isSpace, isAlpha, toUpper)
-
-data Interaction = None | ShoutingQuestions | Shouting | Questioning | General deriving (Show)
+import Data.List (isPrefixOf)
 
 responseFor :: String -> String
-responseFor = phrase . mode
-
-phrase :: Interaction -> String
-phrase = \case
-  None -> "Fine. Be that way!"
-  ShoutingQuestions -> "Calm down, I know what I'm doing!"
-  Shouting -> "Whoa, chill out!"
-  Questioning -> "Sure."
-  General -> "Whatever."
-
-
-mode :: String -> Interaction
-mode input
-  | noInput = None
-  | isShouting input && isQuestion input = ShoutingQuestions
-  | isQuestion input = Questioning
-  | isShouting input = Shouting
-  | otherwise = General
+responseFor input
+  | noInput input = "Fine. Be that way!"
+  | isShouting input && isQuestion input = "Calm down, I know what I'm doing!"
+  | isQuestion input = "Sure."
+  | isShouting input = "Whoa, chill out!"
+  | otherwise = "Whatever."
   where
-    trim = let f = reverse . dropWhile isSpace in f . f
-    noInput = null . trim $ input
-    shoutedWord w = let uppercased = map toUpper w in
-      length w > 1 &&
-      uppercased == w &&
-      (not . elem uppercased $ ["OK", "DMV"])
-    isShouting = not . null . (filter shoutedWord) . words . filter isAlpha
-    isQuestion = ('?' == ) . last . trim
+    noInput = null . filter (not . isSpace)
+    shoutedWord w = length w > 1 && map toUpper w == w && (not . elem w $ ["OK", "DMV"])
+    isShouting = not . null . filter shoutedWord . words . filter (oneof [isAlpha, isSpace])
+    isQuestion s = "?" `isPrefixOf` ((dropWhile isSpace) . reverse $ s)
 
+oneof :: [(a -> Bool)] -> (a -> Bool)
+oneof ps = \c -> foldl (\b p -> b || p c) False ps
