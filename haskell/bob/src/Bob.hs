@@ -1,20 +1,16 @@
 module Bob (responseFor) where
 
-import Data.Char (isSpace, isAlpha, toUpper)
+import Data.Char (isSpace, isLower, isUpper)
 import Data.List (isPrefixOf)
 
 responseFor :: String -> String
-responseFor input
-  | noInput input = "Fine. Be that way!"
-  | isShouting input && isQuestion input = "Calm down, I know what I'm doing!"
-  | isQuestion input = "Sure."
-  | isShouting input = "Whoa, chill out!"
+responseFor s
+  | null . clean $ s = "Fine. Be that way!"
+  | shouting s && asking s = "Calm down, I know what I'm doing!"
+  | asking s = "Sure."
+  | shouting s = "Whoa, chill out!"
   | otherwise = "Whatever."
   where
-    noInput = null . filter (not . isSpace)
-    isShouting = not . null . filter shoutedWord . words . filter (oneof [isAlpha, isSpace])
-                 where shoutedWord w = length w > 1 && map toUpper w == w && (not . elem w $ ["OK", "DMV"])
-    isQuestion = (isPrefixOf "?") . (dropWhile isSpace) . reverse
-
-oneof :: [a -> Bool] -> a -> Bool
-oneof ps = \c -> foldl (\b p -> b || p c) False ps
+    clean = reverse . filter (not . isSpace)
+    asking = (isPrefixOf "?") . clean
+    shouting str = let exists = flip any $ str in (exists isUpper) && (not $ exists isLower)
