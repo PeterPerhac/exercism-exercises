@@ -1,25 +1,17 @@
 module Luhn (isValid) where
 
+import Data.Char (isDigit, digitToInt)
+
 isValid :: String -> Bool
-isValid n = True
+isValid s
+  | (<2) . length . strip $ s = False
+  | otherwise = luhn s
+  where
+    strip = filter isDigit
+    luhn = (0 == ) . (flip rem) 10 . sum . luhnTreatment . map digitToInt . strip
+    luhnTreatment = map luhnDoubling . zip [0..] . reverse
+    luhnDoubling (idx, n)
+      | odd idx && n >  4 = 2*n - 9
+      | odd idx && n <= 4 = 2*n
+      | otherwise = n
 
--- my scala solution
---
---  val valid: String => Boolean =
---     cardNo => Some(cardNo).filter(validFormat).filter(validLuhn).isDefined
-
---   val validLuhn: String => Boolean = s =>
---     s.replaceAll("\\D", "").map(_.asDigit).reverse.zipWithIndex.map{
---       case (d, idx) if idx % 2 == 0 => d
---       case (d, _) if d > 4          => 2*d - 9
---       case (d, _) if d <= 4         => 2*d
---     }.sum % 10 == 0
-
---   val validFormat: String => Boolean =
---     s => atLeastNDigits(2)(s) && validRegex(s)
-
---   val validRegex: String => Boolean =
---     s => """[\d ]{2,}""".r.pattern.matcher(s).matches
-
---   val atLeastNDigits: Int => String => Boolean =
---     n => s => s.filter(Character.isDigit).size >= n
