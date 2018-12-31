@@ -76,4 +76,8 @@ cases = [ Case { description = "empty string"
                , input       = "angola"
                , expected    = False
                }
+        , Case { description = "terminates as early as possible with False"
+               , input       = "something s" ++ [undefined]
+               , expected    = False
+               }
         ]
