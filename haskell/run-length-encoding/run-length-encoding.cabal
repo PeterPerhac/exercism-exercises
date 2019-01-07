@@ -1,0 +1,36 @@
+-- This file has been generated from package.yaml by hpack version 0.28.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: e3044b31f876fe0b1c6ddefe727f9f3baaab890a9b9257fd69d6f94252a5f111
+
+name:           run-length-encoding
+version:        1.1.0.5
+build-type:     Simple
+cabal-version:  >= 1.10
+
+library
+  exposed-modules:
+      RunLength
+  other-modules:
+      Paths_run_length_encoding
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base
+    , split
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Tests.hs
+  other-modules:
+      Paths_run_length_encoding
+  hs-source-dirs:
+      test
+  build-depends:
+      base
+    , hspec
+    , run-length-encoding
+  default-language: Haskell2010
