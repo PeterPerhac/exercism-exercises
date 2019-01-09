@@ -1,10 +1,11 @@
+{-# LANGUAGE LambdaCase #-}
+
 module DNA (toRNA) where
 
 toRNA :: String -> Either Char String
-toRNA = traverse mapping
-  where mapping c = case c of
+toRNA = traverse $ \case
           'G' -> Right 'C'
           'C' -> Right 'G'
           'T' -> Right 'A'
           'A' -> Right 'U'
-          _   -> Left c
+          c   -> Left c
