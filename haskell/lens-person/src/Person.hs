@@ -1,3 +1,5 @@
+{-# LANGUAGE TemplateHaskell #-}
+
 module Person
   ( Address (..)
   , Born    (..)
@@ -10,6 +12,7 @@ module Person
   ) where
 
 import Data.Time.Calendar (Day)
+import Control.Lens hiding (element)
 
 data Person = Person { _name    :: Name
                      , _born    :: Born
@@ -30,14 +33,19 @@ data Address = Address { _street      :: String
                        , _country     :: String
                        }
 
+makeLenses ''Person
+makeLenses ''Name
+makeLenses ''Born
+makeLenses ''Address
+
 bornStreet :: Born -> String
-bornStreet born = error "You need to implement this function."
+bornStreet = view (bornAt . street)
 
 setCurrentStreet :: String -> Person -> Person
-setCurrentStreet street person = error "You need to implement this function."
+setCurrentStreet = over (address . street) . const
 
 setBirthMonth :: Int -> Person -> Person
-setBirthMonth month person = error "You need to implement this function."
+setBirthMonth m p = error "You need to implement this function."
 
 renameStreets :: (String -> String) -> Person -> Person
-renameStreets f person = error "You need to implement this function."
+renameStreets = over (address . street)
