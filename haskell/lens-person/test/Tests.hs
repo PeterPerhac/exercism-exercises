@@ -28,10 +28,6 @@ specs = do
       (_street . _address . setCurrentStreet "Middleroad") testPerson
       `shouldBe` "Middleroad"
 
-    it "setBirthMonth" $
-      (_bornOn . _born . setBirthMonth 9) testPerson
-      `shouldBe` fromGregorian 1984 9 12
-
     it "renameStreets birth" $
       (_street . _bornAt . _born . renameStreets (map toUpper)) testPerson
       `shouldBe` "LONGWAY"
@@ -39,6 +35,11 @@ specs = do
     it "renameStreets current" $
       (_street . _address . renameStreets (map toUpper)) testPerson
       `shouldBe` "SHORTLANE"
+
+    it "setBirthMonth" $
+      (_bornOn . _born . setBirthMonth 9) testPerson
+      `shouldBe` fromGregorian 1984 9 12
+
 
 testPerson :: Person
 testPerson = Person {

@@ -12,7 +12,8 @@ module Person
   ) where
 
 import Data.Time.Calendar (Day)
-import Control.Lens hiding (element)
+import Control.Lens
+import Control.Applicative (liftA2)
 
 data Person = Person { _name    :: Name
                      , _born    :: Born
@@ -42,10 +43,10 @@ bornStreet :: Born -> String
 bornStreet = view (bornAt . street)
 
 setCurrentStreet :: String -> Person -> Person
-setCurrentStreet = over (address . street) . const
+setCurrentStreet = set (address . street)
 
 setBirthMonth :: Int -> Person -> Person
 setBirthMonth m p = error "You need to implement this function."
 
 renameStreets :: (String -> String) -> Person -> Person
-renameStreets = over (address . street)
+renameStreets = liftA2 (.) (over (born . bornAt . street)) (over (address . street))
