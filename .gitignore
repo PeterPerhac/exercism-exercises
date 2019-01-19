@@ -4,3 +4,4 @@
 **/*.rs.bk
 output/
 bower_components/
+.psci_modules/
