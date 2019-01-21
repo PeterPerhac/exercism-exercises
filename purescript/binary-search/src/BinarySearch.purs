@@ -4,17 +4,14 @@ module BinarySearch
 
 import Prelude
 import Data.Maybe
-import Data.Int (quot)
-import Data.Array (length)
-
+import Data.Int
+import Data.Array
 
 find :: Int -> Array Int -> Maybe Int
-find x xs = find' x xs (length xs `quot` 2)
+find x xs = search 0 (length xs - 1) x xs
 
-find' :: Int -> Array Int -> Int -> Maybe Int
-find' x [] _ = Nothing
-find' x xs idx
-  | [x] == xs = Just idx
-  | otherwise = Just idx
-
+search :: Int -> Int -> Int -> Array Int -> Maybe Int
+search _ _ _ [] = Nothing
+search l u x xs = let mid = ( (u - l) `quot` 2 ) in
+                   if (maybe false (_ == x) (xs !! mid)) then Just mid else Nothing
 
