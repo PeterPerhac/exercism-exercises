@@ -24,9 +24,9 @@ object Instruction {
 final case class Robot(bearing: Bearing, coordinates: (Int, Int)) {
   import Instruction._
 
-  lazy val advance: Robot = copy(coordinates=bearing.advance(coordinates))
-  lazy val turnLeft: Robot = copy(bearing=bearing.left)
-  lazy val turnRight: Robot = copy(bearing=bearing.right)
+  def advance: Robot = copy(coordinates=bearing.advance(coordinates))
+  def turnLeft: Robot = copy(bearing=bearing.left)
+  def turnRight: Robot = copy(bearing=bearing.right)
 
   def simulate(instructions: String): Robot = {
     instructions.flatMap(resolveInstructionCode).foldLeft(this){ (robot, instruction) =>
