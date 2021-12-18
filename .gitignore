@@ -1,6 +1,6 @@
 .stack-work/
 .DS_Store
-/target/
+target/
 **/*.rs.bk
 output/
 bower_components/
