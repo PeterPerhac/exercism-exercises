@@ -5,3 +5,7 @@ target/
 output/
 bower_components/
 .psci_modules/
+.idea/
+.bsp/
+.exercism/
+
