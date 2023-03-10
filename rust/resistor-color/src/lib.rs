@@ -30,9 +30,8 @@ pub fn color_to_value(color: ResistorColor) -> u32 {
 }
 
 pub fn value_to_color_string(value: u32) -> String {
-    let color = colors().iter().position(|rc| color_to_value(*rc) == value);
-    match color {
-        Some(idx) => format!("{:?}", colors().get(idx).unwrap()),
+    match colors().iter().find(|&rc| color_to_value(*rc) == value) {
+        Some(c) => format!("{:?}", c),
         None => String::from("value out of range")
     }
 }
