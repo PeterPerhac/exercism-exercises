@@ -10,33 +10,23 @@ pub enum CalculatorInput {
 pub fn evaluate(inputs: &[CalculatorInput]) -> Option<i32> {
     use CalculatorInput::*;
 
-    let mut stack: Vec<i32> = vec![];
+    let mut stack: Vec<i32> = Vec::new();
 
     for input in inputs {
         match input {
-            Add => {
-                if let (Some(b), Some(a)) = (stack.pop(), stack.pop()) {
-                    stack.push(a + b);
-                } else { return None; }
+            Value(n) => stack.push(*n),
+            op @ (Add | Subtract | Multiply | Divide) => {
+                let b = stack.pop()?;
+                let a = stack.pop()?;
+                stack.push(match op {
+                    Add => a + b,
+                    Subtract => a - b,
+                    Multiply => a * b,
+                    Divide => a / b,
+                    _ => panic!("can't happen")
+                });
             }
-            Subtract => {
-                if let (Some(b), Some(a)) = (stack.pop(), stack.pop()) {
-                    stack.push(a - b);
-                } else { return None; }
-            }
-            Multiply => {
-                if let (Some(b), Some(a)) = (stack.pop(), stack.pop()) {
-                    stack.push(a * b);
-                } else { return None; }
-            }
-            Divide => {
-                if let (Some(b), Some(a)) = (stack.pop(), stack.pop()) {
-                    stack.push(a / b);
-                } else { return None; }
-            }
-            Value(n) => stack.push(*n)
         }
     }
-
     if stack.len() == 1 { stack.pop() } else { None }
 }
