@@ -1,3 +1,5 @@
+use crate::Comparison::{Equal, Unequal};
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Comparison {
     Equal,
@@ -7,5 +9,5 @@ pub enum Comparison {
 }
 
 pub fn sublist<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Comparison {
-    unimplemented!("Determine if the first list is equal to, sublist of, superlist of or unequal to the second list.");
+    if _first_list.eq(_second_list) { Equal } else { Unequal }
 }
