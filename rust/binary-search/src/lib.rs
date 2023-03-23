@@ -1,10 +1,7 @@
-use tailcall::tailcall;
-
 pub fn find(array: &[i32], key: i32) -> Option<usize> {
-    #[tailcall]
     fn recurse(from: usize, to: usize, a: &[i32], k: i32) -> Option<usize> {
         if from == to {
-            Some(from).filter(|_| a[from] == k )
+            Some(from).filter(|_| a[from] == k)
         } else {
             let mid_index = (from + to) / 2;
             let mid_value = a[mid_index];

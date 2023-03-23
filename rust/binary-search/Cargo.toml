@@ -3,8 +3,5 @@ edition = "2021"
 name = "binary-search"
 version = "1.3.0"
 
-[dependencies]
-tailcall = "0.1.6"
-
 [features]
 generic = []
