@@ -15,11 +15,7 @@ impl Display for Clock {
 
 impl Clock {
     fn adjust_minutes(input: i32) -> i32 {
-        let days = if input >= MINUTES_PER_DAY {
-            input / MINUTES_PER_DAY
-        } else {
-            if input < 0 { (input / MINUTES_PER_DAY) - 1 } else { 0 }
-        };
+        let days = input.div_euclid(MINUTES_PER_DAY);
         input - (days * MINUTES_PER_DAY)
     }
 
