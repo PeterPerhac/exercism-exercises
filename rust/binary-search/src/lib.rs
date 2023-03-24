@@ -1,4 +1,8 @@
+use tailcall::tailcall;
+
 pub fn find(array: &[i32], key: i32) -> Option<usize> {
+
+    #[tailcall]
     fn recurse(from: usize, to: usize, a: &[i32], k: i32) -> Option<usize> {
         if from == to {
             Some(from).filter(|_| a[from] == k)

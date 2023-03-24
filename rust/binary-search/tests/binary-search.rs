@@ -77,6 +77,17 @@ fn nothing_is_found_when_the_left_and_right_bounds_cross() {
 }
 
 #[test]
+fn find_number_in_a_huge_pile() {
+    let mut n = 0;
+    let array: [i32;  10_000 ] = [0;10_000].map(|_| {n = n+1; n});
+    for n in array{
+        print!("{}", n);
+    }
+    println!("got here");
+    assert_eq!(find(&array, 1), Some(0));
+}
+
+#[test]
 #[cfg(feature = "generic")]
 fn works_for_arrays() {
     assert_eq!(find([6], 6), Some(0));
