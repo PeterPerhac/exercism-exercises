@@ -1,7 +1,5 @@
 #[derive(Debug)]
-pub struct Duration {
-    s: u64,
-}
+pub struct Duration { s: u64 }
 
 const EARTH_YEAR_SECONDS: u64 = 31_557_600;
 
@@ -13,30 +11,22 @@ pub trait Planet {
     fn years_during(d: &Duration) -> f64;
 }
 
-pub struct Mercury;
-pub struct Venus;
-pub struct Earth;
-pub struct Mars;
-pub struct Jupiter;
-pub struct Saturn;
-pub struct Uranus;
-pub struct Neptune;
-
 macro_rules! planet {
-    (for $($t:ty)+, $($d:tt),+) => {
-        $(impl Planet for $t {
-            fn years_during(d: &Duration) -> f64 {
-               (d.s as f64 / EARTH_YEAR_SECONDS as f64) / $d
-            }
-        })*
+    ($n:ident, $p:expr) => {
+        pub struct $n;
+        impl Planet for $n {
+          fn years_during(d: &Duration) -> f64 {
+             (d.s as f64 / EARTH_YEAR_SECONDS as f64) / $p
+          }
+        }
     }
 }
 
-planet!(for Mercury, 0.2408467);
-planet!(for Venus, 0.61519726);
-planet!(for Earth, 1.0);
-planet!(for Mars, 1.8808158);
-planet!(for Jupiter, 11.862615);
-planet!(for Saturn, 29.447498);
-planet!(for Uranus, 84.016846);
-planet!(for Neptune, 164.79132);
+planet!(Mercury, 0.2408467);
+planet!(Venus, 0.61519726);
+planet!(Earth, 1.0);
+planet!(Mars, 1.8808158);
+planet!(Jupiter, 11.862615);
+planet!(Saturn, 29.447498);
+planet!(Uranus, 84.016846);
+planet!(Neptune, 164.79132);
